@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link, usePage, router } from '@inertiajs/react'
 import { Bell, Menu } from 'lucide-react'
 import { Button } from '../ui/button'
@@ -17,13 +17,6 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { LanguageSwitcher } from '@/components/ui/language-switcher'
 import { NotificationDropdown } from './notification_dropdown'
 import useTranslation from '@/hooks/use_translation'
-
-// Hàm debug log chỉ hiển thị trong chế độ phát triển
-const debugLog = (message: string, ...args: any[]) => {
-  if (window.DEBUG_MODE) {
-    console.log(`[DEBUG] ${message}`, ...args)
-  }
-}
 
 interface AuthUser {
   id?: string
@@ -52,21 +45,7 @@ export default function Navbar() {
   const { toggleSidebar } = useSidebar()
   const page = usePage<PageProps>()
   const user = page.props.user?.auth?.user
-  const csrfToken = page.props.csrfToken || ''
   const { t } = useTranslation()
-
-  // Thêm log chi tiết để debug
-  useEffect(() => {
-    // Chỉ log khi ở chế độ debug
-    if (!window.DEBUG_MODE) return
-
-    debugLog('NavBar: Page props', page.props)
-    if (!user) {
-      console.error('NavBar: Không có thông tin người dùng')
-    } else {
-      debugLog('NavBar: User info', user)
-    }
-  }, [user, page.props])
 
   // Tạo initials từ tên người dùng
   const getInitials = (name: string) => {
@@ -139,10 +118,7 @@ export default function Navbar() {
               <DropdownMenuItem
                 onClick={(e) => {
                   e.preventDefault()
-                  console.log('[NavBar] Logout clicked')
                   router.post('/logout', {}, {
-                    onStart: () => console.log('[NavBar] Logout request started'),
-                    onSuccess: () => console.log('[NavBar] Logout successful'),
                     onError: (errors) => console.error('[NavBar] Logout error:', errors),
                   })
                 }}

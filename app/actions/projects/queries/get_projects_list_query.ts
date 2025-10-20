@@ -109,11 +109,6 @@ export default class GetProjectsListQuery extends BaseQuery<
         .orWhere('pm.user_id', user.id)
     })
 
-    // Debug: Log the query
-    const debugSql = query.toQuery()
-    console.log('[GetProjectsListQuery] SQL:', debugSql)
-    console.log('[GetProjectsListQuery] User ID:', user.id)
-
     // Apply filters
     if (dto.organization_id) {
       query = query.where('p.organization_id', dto.organization_id)
@@ -152,15 +147,18 @@ export default class GetProjectsListQuery extends BaseQuery<
       const countQuery = query.clone().clearSelect().clearOrder().count('DISTINCT p.id as total')
       const countResult = await countQuery.first()
       total = Number(countResult?.total || 0)
-      console.log('[GetProjectsListQuery] Count result:', countResult)
     } catch (countError) {
-      console.error('[GetProjectsListQuery] Count error:', countError)
       // Fallback: count without DISTINCT
       try {
-        const fallbackCount = await query.clone().clearSelect().clearOrder().count('* as total').first()
+        const fallbackCount = await query
+          .clone()
+          .clearSelect()
+          .clearOrder()
+          .count('* as total')
+          .first()
         total = Number(fallbackCount?.total || 0)
       } catch (fallbackError) {
-        console.error('[GetProjectsListQuery] Fallback count error:', fallbackError)
+        // Silently fail - total will be 0
       }
     }
 
@@ -172,13 +170,6 @@ export default class GetProjectsListQuery extends BaseQuery<
 
     // Execute query
     const projects = await query
-
-    // Debug: Log results
-    console.log('[GetProjectsListQuery] Projects found:', projects.length)
-    console.log('[GetProjectsListQuery] Total count:', total)
-    if (projects.length > 0) {
-      console.log('[GetProjectsListQuery] First project:', projects[0])
-    }
 
     // Get task counts and member counts for each project
     const projectsWithStats = await this.enrichWithStats(projects)

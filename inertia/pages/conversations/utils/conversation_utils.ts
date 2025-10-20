@@ -8,13 +8,11 @@ import { Conversation, Message, MessageGroup } from '../types'
 export const formatDate = (dateString: string, locale: string = 'vi') => {
   try {
     if (!dateString) {
-      console.warn('formatDate: Chuỗi thời gian rỗng')
       return locale === 'vi' ? 'Không xác định' : 'Unknown'
     }
     const date = new Date(dateString)
     // Kiểm tra xem date có hợp lệ không
     if (Number.isNaN(date.getTime())) {
-      console.warn('formatDate: Chuỗi thời gian không hợp lệ:', dateString)
       return locale === 'vi' ? 'Không xác định' : 'Unknown'
     }
     // Chọn ngôn ngữ phù hợp với locale hiện tại
@@ -35,13 +33,11 @@ export const formatDate = (dateString: string, locale: string = 'vi') => {
 export const formatMessageDate = (dateString: string) => {
   try {
     if (!dateString) {
-      console.warn('formatMessageDate: Chuỗi thời gian rỗng')
       return 'Không xác định'
     }
     const date = new Date(dateString)
     // Kiểm tra xem date có hợp lệ không
     if (Number.isNaN(date.getTime())) {
-      console.warn('formatMessageDate: Chuỗi thời gian không hợp lệ:', dateString)
       return 'Không xác định'
     }
     return format(date, 'HH:mm')
@@ -63,13 +59,11 @@ export const groupMessagesByDate = (msgs: Message[] | undefined) => {
     try {
       const dateField = message.created_at || message.timestamp
       if (!dateField) {
-        console.warn('Tin nhắn không có created_at hoặc timestamp:', message)
         return // Bỏ qua tin nhắn không có thời gian
       }
       const date = new Date(dateField)
       // Kiểm tra xem date có hợp lệ không
       if (Number.isNaN(date.getTime())) {
-        console.warn('Thời gian không hợp lệ:', dateField)
         return // Bỏ qua timestamp không hợp lệ
       }
       const dateKey = format(date, 'dd/MM/yyyy')

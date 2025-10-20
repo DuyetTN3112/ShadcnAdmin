@@ -66,8 +66,6 @@ export const ConversationList: React.FC<ConversationListProps> = ({
                 if (otherParticipant) {
                   displayName = otherParticipant.user_name || t('conversation.unknown_user', {}, 'Người dùng không xác định')
                   displayAvatar = otherParticipant.user_avatar || ''
-                } else {
-                  console.warn('Không tìm thấy thông tin người dùng khác trong hội thoại 1-1:', conversation)
                 }
               }
 

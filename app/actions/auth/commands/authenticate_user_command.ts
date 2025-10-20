@@ -105,25 +105,16 @@ export default class AuthenticateUserCommand extends BaseCommand<AuthenticateUse
       throw new Error('Tài khoản không tồn tại')
     }
 
-    console.log(`\n🔍 Verifying credentials for user ID: ${user.id}, email: ${user.email}`)
-    console.log(
-      `Password hash mode: ${this.USE_PASSWORD_HASH ? 'ENABLED' : 'DISABLED (plain text)'}`
-    )
-
     // 2. Verify password
     let isPasswordValid: boolean
 
     if (this.USE_PASSWORD_HASH) {
       // 🔒 PRODUCTION: Use secure hash verification
       isPasswordValid = await hash.verify(user.password, dto.password)
-      console.log(`   Hash verification result: ${isPasswordValid}`)
     } else {
       // 🔧 DEVELOPMENT: Use plain text comparison for faster iteration
       // ⚠️ WARNING: This is INSECURE! Only use in development!
       isPasswordValid = user.password === dto.password
-      console.log(`   Plain text comparison result: ${isPasswordValid}`)
-      console.log(`   DB password: ${user.password}`)
-      console.log(`   Input password: ${dto.password}`)
     }
 
     if (!isPasswordValid) {
@@ -138,7 +129,6 @@ export default class AuthenticateUserCommand extends BaseCommand<AuthenticateUse
       throw new Error('Tài khoản đã bị khóa hoặc chưa được kích hoạt')
     }
 
-    console.log(`✅ Credentials verified successfully\n`)
     return user
   }
 

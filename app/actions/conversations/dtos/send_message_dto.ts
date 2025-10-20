@@ -46,11 +46,8 @@ export class SendMessageDTO {
     }
 
     // Check for potentially malicious content
-    if (this.containsSuspiciousContent(this.message)) {
-      // This is a warning, not a hard error
-      // The actual sanitization should happen in the command
-      console.warn('Message contains potentially suspicious content')
-    }
+    // The actual sanitization happens in the command if needed
+    this.containsSuspiciousContent(this.message)
   }
 
   /**

@@ -101,10 +101,7 @@ export function ProfileDropdown() {
         <DropdownMenuItem
           onClick={(e) => {
             e.preventDefault()
-            console.log('[ProfileDropdown] Logout clicked')
             router.post('/logout', {}, {
-              onStart: () => console.log('[ProfileDropdown] Logout request started'),
-              onSuccess: () => console.log('[ProfileDropdown] Logout successful'),
               onError: (errors) => console.error('[ProfileDropdown] Logout error:', errors),
             })
           }}

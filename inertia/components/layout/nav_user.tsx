@@ -128,10 +128,7 @@ export function NavUser({
             <DropdownMenuItem
               onClick={(e) => {
                 e.preventDefault()
-                console.log('[NavUser] Logout clicked')
                 router.post('/logout', {}, {
-                  onStart: () => console.log('[NavUser] Logout request started'),
-                  onSuccess: () => console.log('[NavUser] Logout successful'),
                   onError: (errors) => console.error('[NavUser] Logout error:', errors),
                 })
               }}

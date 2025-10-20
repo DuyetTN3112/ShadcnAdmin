@@ -39,19 +39,6 @@ export const useConversation = () => {
         },
       })
       setSelectedConversation(response.data.conversation)
-      console.log('[useConversation] loadConversation response:', {
-        conversationId,
-        hasMessages: !!response.data.messages,
-        messagesType: Array.isArray(response.data.messages)
-          ? 'array'
-          : typeof response.data.messages,
-        messagesCount: Array.isArray(response.data.messages)
-          ? response.data.messages.length
-          : response.data.messages?.data?.length || 0,
-        sampleMessage: Array.isArray(response.data.messages)
-          ? response.data.messages[0]
-          : response.data.messages?.data?.[0],
-      })
 
       // Kiểm tra dữ liệu tin nhắn
       if (response.data.messages) {
@@ -59,54 +46,21 @@ export const useConversation = () => {
         let messagesData = []
         if (Array.isArray(response.data.messages)) {
           // Kiểm tra tính hợp lệ của mỗi tin nhắn
-          const beforeFilter = response.data.messages.length
           messagesData = [...response.data.messages].filter((message) => {
             const timeField = message.created_at || message.timestamp
-            // Loại bỏ tin nhắn không có thời gian
-            if (!timeField) {
-              console.warn('[useConversation] Message filtered out - no timeField:', message)
-              return false
-            }
-            // Kiểm tra tính hợp lệ của thời gian
+            if (!timeField) return false
             const time = new Date(timeField)
-            if (Number.isNaN(time.getTime())) {
-              console.warn('[useConversation] Message filtered out - invalid time:', {
-                message,
-                timeField,
-              })
-              return false
-            }
-            return true
+            return !Number.isNaN(time.getTime())
           })
-          console.log(
-            `[useConversation] Filtered messages (array): ${beforeFilter} -> ${messagesData.length}`
-          )
         } else if (response.data.messages.data && Array.isArray(response.data.messages.data)) {
           // Kiểm tra tính hợp lệ của mỗi tin nhắn
-          const beforeFilter = response.data.messages.data.length
           messagesData = [...response.data.messages.data].filter((message) => {
             const timeField = message.created_at || message.timestamp
-            // Loại bỏ tin nhắn không có thời gian
-            if (!timeField) {
-              console.warn('[useConversation] Message filtered out - no timeField:', message)
-              return false
-            }
-            // Kiểm tra tính hợp lệ của thời gian
+            if (!timeField) return false
             const time = new Date(timeField)
-            if (Number.isNaN(time.getTime())) {
-              console.warn('[useConversation] Message filtered out - invalid time:', {
-                message,
-                timeField,
-              })
-              return false
-            }
-            return true
+            return !Number.isNaN(time.getTime())
           })
-          console.log(
-            `[useConversation] Filtered messages (data): ${beforeFilter} -> ${messagesData.length}`
-          )
         }
-        console.log('[useConversation] Setting messages:', messagesData.length)
         setMessages(messagesData)
         // Thông tin phân trang
         if (response.data.pagination) {
@@ -133,9 +87,8 @@ export const useConversation = () => {
             },
           }
         )
-        .then(() => {})
-        .catch((err) => {
-          console.warn('Lỗi khi đánh dấu đã đọc:', err)
+        .catch(() => {
+          // Silently ignore marking as read errors
         })
     } catch (error) {
       console.error('Không thể tải cuộc trò chuyện:', error)
@@ -223,12 +176,10 @@ export const useConversation = () => {
   // Thu hồi tin nhắn với mọi người
   const handleRecallForEveryone = async () => {
     if (!currentMessage || !selectedId) return
-    // Log chi tiết tin nhắn trước khi thu hồi
-    const startTime = Date.now()
 
     try {
       // Gửi request thu hồi với scope là all (tất cả người dùng)
-      const response = await axios.post(
+      await axios.post(
         `/api/conversations/${selectedId}/messages/${currentMessage.id}/recall`,
         {
           scope: 'all',
@@ -242,8 +193,6 @@ export const useConversation = () => {
           },
         }
       )
-
-      const endTime = Date.now()
 
       // Cập nhật trạng thái tin nhắn trong state local
       setMessages((prevMessages) =>
@@ -260,22 +209,7 @@ export const useConversation = () => {
       )
 
       // Tải lại dữ liệu từ API để đảm bảo đồng bộ
-      try {
-        // Nếu response có chứa tin nhắn đã cập nhật, sử dụng dữ liệu đó
-        if (response.data?.messages) {
-          setMessages(response.data.messages)
-        } else {
-          // Nếu không, tải lại toàn bộ danh sách tin nhắn
-          await loadConversation(selectedId)
-        }
-      } catch (reloadError) {
-        // Nếu vẫn có vấn đề, thử tải lại sau 1 giây
-        setTimeout(async () => {
-          try {
-            await loadConversation(selectedId)
-          } catch (secondReloadError) {}
-        }, 1000)
-      }
+      await loadConversation(selectedId)
 
       // Đóng dialog thu hồi
       setRecallDialogOpen(false)
@@ -298,11 +232,9 @@ export const useConversation = () => {
   const handleRecallForSelf = async () => {
     if (!currentMessage || !selectedId) return
 
-    const startTime = Date.now()
-
     try {
       // Gửi request thu hồi với scope là self (chỉ người dùng hiện tại)
-      const response = await axios.post(
+      await axios.post(
         `/api/conversations/${selectedId}/messages/${currentMessage.id}/recall`,
         {
           scope: 'self',
@@ -316,8 +248,6 @@ export const useConversation = () => {
           },
         }
       )
-
-      const endTime = Date.now()
 
       // Cập nhật trạng thái tin nhắn trong state local
       setMessages((prevMessages) =>

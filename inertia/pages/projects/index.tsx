@@ -16,19 +16,8 @@ export default function Projects({ projects, auth, showOrganizationRequiredModal
   const { t } = useTranslation()
   const [showOrganizationModal, setShowOrganizationModal] = React.useState(false)
 
-  // Debug: Log received props
-  console.log('[Projects] Received props:', {
-    projectsType: Array.isArray(projects) ? 'array' : typeof projects,
-    projectsCount: projects?.length || 0,
-    projects: projects,
-    hasAuth: !!auth,
-    currentOrgId: auth?.user?.current_organization_id
-  })
-
   // Guard against undefined projects array
-  const safeProjects = projects || []
-
-  // Kiểm tra xem người dùng có tổ chức hiện tại không
+  const safeProjects = projects || []  // Kiểm tra xem người dùng có tổ chức hiện tại không
   const hasCurrentOrganization = auth?.user?.current_organization_id !== null &&
                                 auth?.user?.current_organization_id !== undefined
 

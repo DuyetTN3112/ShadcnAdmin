@@ -50,14 +50,8 @@ export default class LoginController {
   /**
    * Build AuthenticateUserDTO from request
    */
-  private buildAuthenticateDTO(request: any, ctx: HttpContext): AuthenticateUserDTO {
+  private buildAuthenticateDTO(request: any, _ctx: HttpContext): AuthenticateUserDTO {
     const { email, password, remember } = request.only(['email', 'password', 'remember'])
-
-    console.log('\n🔍 [LoginController] Building DTO from request:')
-    console.log('   All request data:', request.all())
-    console.log('   Email:', email)
-    console.log('   Password:', password)
-    console.log('   Remember:', remember)
 
     return new AuthenticateUserDTO({
       email,

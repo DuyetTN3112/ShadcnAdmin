@@ -142,7 +142,7 @@ export default class RemoveProjectMemberCommand extends BaseCommand<RemoveProjec
     toUserId: number,
     trx: any
   ): Promise<void> {
-    const tasksCount = await trx
+    await trx
       .from('tasks')
       .where('project_id', projectId)
       .where('assigned_to', fromUserId)
@@ -151,8 +151,6 @@ export default class RemoveProjectMemberCommand extends BaseCommand<RemoveProjec
         assigned_to: toUserId,
         updated_at: new Date(),
       })
-
-    console.log(`Reassigned ${tasksCount} tasks from user ${fromUserId} to user ${toUserId}`)
   }
 
   /**

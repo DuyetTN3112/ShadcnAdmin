@@ -3,6 +3,7 @@ import User from '#models/user'
 import AuditLog from '#models/audit_log'
 import CreateTaskDTO from '../dtos/create_task_dto.js'
 import CreateNotification from '#actions/common/create_notification'
+import logger from '@adonisjs/core/services/logger'
 import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 
@@ -132,7 +133,7 @@ export default class CreateTaskCommand {
 
       const assignee = await User.find(assigneeId)
       if (!assignee) {
-        this.logWarning(`Assignee user not found: ${assigneeId}`)
+        logger.warn(`[CreateTaskCommand] Assignee user not found: ${assigneeId}`)
         return
       }
 
@@ -145,31 +146,10 @@ export default class CreateTaskCommand {
         related_entity_id: task.id,
       })
 
-      this.logInfo(`Notification sent to user ${assigneeId} for task ${task.id}`)
+      logger.info(`[CreateTaskCommand] Notification sent to user ${assigneeId} for task ${task.id}`)
     } catch (error) {
       // Don't fail task creation if notification fails
-      this.logError('Failed to send assignment notification', error)
+      logger.error('[CreateTaskCommand] Failed to send assignment notification', { error })
     }
-  }
-
-  /**
-   * Log warning
-   */
-  private logWarning(message: string): void {
-    console.warn(`[CreateTaskCommand] ${message}`)
-  }
-
-  /**
-   * Log info
-   */
-  private logInfo(message: string): void {
-    console.info(`[CreateTaskCommand] ${message}`)
-  }
-
-  /**
-   * Log error
-   */
-  private logError(message: string, error: any): void {
-    console.error(`[CreateTaskCommand] ${message}`, error)
   }
 }

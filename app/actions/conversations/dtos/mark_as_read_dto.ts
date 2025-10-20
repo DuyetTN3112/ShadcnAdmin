@@ -85,12 +85,7 @@ export class MarkMessagesAsReadDTO {
       throw new Error('Message IDs must be unique')
     }
 
-    // Optional: Warn if too many messages at once
-    if (this.messageIds.length > 100) {
-      console.warn(
-        `Marking ${this.messageIds.length} messages as read at once. Consider batching in smaller chunks.`
-      )
-    }
+    // Allow marking many messages at once (validation only)
   }
 
   /**

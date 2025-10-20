@@ -48,10 +48,8 @@ export class ProcessJoinRequestDTO {
       }
     }
 
-    // If rejecting, reason is strongly recommended
-    if (!this.approve && !this.hasReason()) {
-      console.warn('[ProcessJoinRequestDTO] Rejecting without reason - consider providing one')
-    }
+    // If rejecting, reason is strongly recommended (but not required)
+    // Silently allow rejection without reason
   }
 
   /**
