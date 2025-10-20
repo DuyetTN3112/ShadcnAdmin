@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, usePage } from '@inertiajs/react'
+import { Link, usePage, router } from '@inertiajs/react'
 import {
   BadgeCheck,
   Bell,
@@ -44,7 +44,7 @@ export function NavUser({
   const page = usePage<PageProps>()
   const csrfToken = page.props.csrfToken || ''
   const { t } = useTranslation()
-  
+
   // Tạo initials từ tên người dùng
   const getInitials = (name: string) => {
     return name
@@ -125,14 +125,19 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <form action="/logout" method="POST" className="w-full">
-                <input type="hidden" name="_csrf" value={csrfToken} />
-                <button type="submit" className="w-full text-left flex items-center cursor-pointer">
-                  <LogOut className="mr-2 h-4 w-4" />
-                  {t('auth.logout', {}, 'Đăng xuất')}
-                </button>
-              </form>
+            <DropdownMenuItem
+              onClick={(e) => {
+                e.preventDefault()
+                console.log('[NavUser] Logout clicked')
+                router.post('/logout', {}, {
+                  onStart: () => console.log('[NavUser] Logout request started'),
+                  onSuccess: () => console.log('[NavUser] Logout successful'),
+                  onError: (errors) => console.error('[NavUser] Logout error:', errors),
+                })
+              }}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              {t('auth.logout', {}, 'Đăng xuất')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

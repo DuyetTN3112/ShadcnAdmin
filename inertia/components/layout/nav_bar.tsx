@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Link, usePage } from '@inertiajs/react'
+import { Link, usePage, router } from '@inertiajs/react'
 import { Bell, Menu } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Search } from '@/components/search'
@@ -136,16 +136,18 @@ export default function Navbar() {
                 <Link href="/settings/account">{t('settings.account', {}, 'Cài đặt tài khoản')}</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <form action="/logout" method="POST" className="w-full">
-                  <input type="hidden" name="_csrf" value={csrfToken} />
-                  <button
-                    type="submit"
-                    className="w-full text-left flex items-center cursor-pointer"
-                  >
-                    {t('auth.logout', {}, 'Đăng xuất')}
-                  </button>
-                </form>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                  console.log('[NavBar] Logout clicked')
+                  router.post('/logout', {}, {
+                    onStart: () => console.log('[NavBar] Logout request started'),
+                    onSuccess: () => console.log('[NavBar] Logout successful'),
+                    onError: (errors) => console.error('[NavBar] Logout error:', errors),
+                  })
+                }}
+              >
+                {t('auth.logout', {}, 'Đăng xuất')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

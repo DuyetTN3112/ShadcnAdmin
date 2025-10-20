@@ -39,41 +39,74 @@ export const useConversation = () => {
         },
       })
       setSelectedConversation(response.data.conversation)
+      console.log('[useConversation] loadConversation response:', {
+        conversationId,
+        hasMessages: !!response.data.messages,
+        messagesType: Array.isArray(response.data.messages)
+          ? 'array'
+          : typeof response.data.messages,
+        messagesCount: Array.isArray(response.data.messages)
+          ? response.data.messages.length
+          : response.data.messages?.data?.length || 0,
+        sampleMessage: Array.isArray(response.data.messages)
+          ? response.data.messages[0]
+          : response.data.messages?.data?.[0],
+      })
+
       // Kiểm tra dữ liệu tin nhắn
       if (response.data.messages) {
         // Kiểm tra cấu trúc dữ liệu - có thể là mảng trực tiếp hoặc là object với thuộc tính data
         let messagesData = []
         if (Array.isArray(response.data.messages)) {
           // Kiểm tra tính hợp lệ của mỗi tin nhắn
+          const beforeFilter = response.data.messages.length
           messagesData = [...response.data.messages].filter((message) => {
             const timeField = message.created_at || message.timestamp
             // Loại bỏ tin nhắn không có thời gian
             if (!timeField) {
+              console.warn('[useConversation] Message filtered out - no timeField:', message)
               return false
             }
             // Kiểm tra tính hợp lệ của thời gian
             const time = new Date(timeField)
             if (Number.isNaN(time.getTime())) {
+              console.warn('[useConversation] Message filtered out - invalid time:', {
+                message,
+                timeField,
+              })
               return false
             }
             return true
           })
+          console.log(
+            `[useConversation] Filtered messages (array): ${beforeFilter} -> ${messagesData.length}`
+          )
         } else if (response.data.messages.data && Array.isArray(response.data.messages.data)) {
           // Kiểm tra tính hợp lệ của mỗi tin nhắn
+          const beforeFilter = response.data.messages.data.length
           messagesData = [...response.data.messages.data].filter((message) => {
             const timeField = message.created_at || message.timestamp
             // Loại bỏ tin nhắn không có thời gian
             if (!timeField) {
+              console.warn('[useConversation] Message filtered out - no timeField:', message)
               return false
             }
             // Kiểm tra tính hợp lệ của thời gian
             const time = new Date(timeField)
             if (Number.isNaN(time.getTime())) {
+              console.warn('[useConversation] Message filtered out - invalid time:', {
+                message,
+                timeField,
+              })
               return false
             }
             return true
           })
+          console.log(
+            `[useConversation] Filtered messages (data): ${beforeFilter} -> ${messagesData.length}`
+          )
         }
+        console.log('[useConversation] Setting messages:', messagesData.length)
         setMessages(messagesData)
         // Thông tin phân trang
         if (response.data.pagination) {
@@ -164,6 +197,10 @@ export const useConversation = () => {
         }
       )
       setNewMessage('') // Xóa tin nhắn sau khi gửi thành công
+
+      // Đợi một chút để đảm bảo cache đã được xóa
+      await new Promise((resolve) => setTimeout(resolve, 300))
+
       // Tải lại tin nhắn sau khi gửi
       await loadConversation(selectedId)
     } catch (error) {
