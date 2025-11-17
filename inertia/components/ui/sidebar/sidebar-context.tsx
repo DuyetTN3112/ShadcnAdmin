@@ -48,8 +48,8 @@ export function SidebarProvider({
   onOpenChange?: (open: boolean) => void
 }) {
   // Chỉ ghi log khi debug mode được bật
-  const debugLog = (message: string, ...args: any[]) => {
-    if (window.DEBUG_MODE && process.env.NODE_ENV === 'development') {
+  const debugLog = (message: string, ...args: unknown[]) => {
+    if (window.DEBUG_MODE && import.meta.env.NODE_ENV === 'development') {
 
     }
   };

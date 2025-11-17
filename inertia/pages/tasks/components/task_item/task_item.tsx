@@ -29,7 +29,7 @@ export function TaskItem({
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  const handleTaskUpdate = (updatedTask: any) => {
+  const handleTaskUpdate = () => {
     // Handle task update
   };
 
@@ -54,7 +54,7 @@ export function TaskItem({
         // Đóng dialog xác nhận
         setDeleteDialogOpen(false);
       },
-      onError: (errors: any) => {
+      onError: (errors: unknown) => {
         // Xử lý lỗi
         console.error('Lỗi khi xóa task:', errors);
         alert('Có lỗi xảy ra khi xóa nhiệm vụ. Vui lòng thử lại.');

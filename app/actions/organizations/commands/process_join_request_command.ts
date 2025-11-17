@@ -130,7 +130,11 @@ export default class ProcessJoinRequestCommand {
   /**
    * Helper: Check if user has permission to process requests
    */
-  private async checkPermissions(organizationId: number, userId: number, trx: any): Promise<void> {
+  private async checkPermissions(
+    organizationId: number,
+    userId: number,
+    trx: unknown
+  ): Promise<void> {
     const membership = await db
       .from('organization_users')
       .where('organization_id', organizationId)
@@ -149,7 +153,7 @@ export default class ProcessJoinRequestCommand {
    */
   private async sendProcessedNotification(
     dto: ProcessJoinRequestDTO,
-    joinRequest: any
+    joinRequest: unknown
   ): Promise<void> {
     try {
       const title = dto.isApproval() ? 'Yêu cầu được chấp nhận' : 'Yêu cầu bị từ chối'

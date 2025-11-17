@@ -20,7 +20,7 @@ type ChildTaskRowProps = {
   handleSelectTask: (taskId: number, checked: boolean) => void
   isTaskCompleted: (task: Task) => boolean
   formatDate: (dateString: string) => string
-  currentUserInfo: any
+  currentUserInfo: unknown
 }
 
 export function ChildTaskRow({

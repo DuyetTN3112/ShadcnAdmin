@@ -105,7 +105,11 @@ export default class RemoveMemberCommand {
   /**
    * Helper: Check if user has permission to remove members
    */
-  private async checkPermissions(organizationId: number, userId: number, trx: any): Promise<void> {
+  private async checkPermissions(
+    organizationId: number,
+    userId: number,
+    trx: unknown
+  ): Promise<void> {
     const membership = await db
       .from('organization_users')
       .where('organization_id', organizationId)
@@ -125,7 +129,7 @@ export default class RemoveMemberCommand {
   private async unassignMemberTasks(
     organizationId: number,
     userId: number,
-    trx: any
+    trx: unknown
   ): Promise<void> {
     // Find all projects in this organization
     const projects = await db

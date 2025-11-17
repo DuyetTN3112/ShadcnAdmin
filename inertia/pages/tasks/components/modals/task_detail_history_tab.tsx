@@ -12,8 +12,8 @@ interface AuditLogEntry {
   event: string
   auditable_type: string
   auditable_id: number
-  old_values?: Record<string, any>
-  new_values?: Record<string, any>
+  old_values?: Record<string, unknown>
+  new_values?: Record<string, unknown>
   ip_address?: string
   user_agent?: string
   tags?: string[]
@@ -81,7 +81,7 @@ export function TaskDetailHistoryTab({ auditLogs, task }: TaskDetailHistoryTabPr
     return `Người dùng #${userId}`
   }
 
-  const getValueText = (fieldName: string, value: any): string => {
+  const getValueText = (fieldName: string, value: unknown): string => {
     if (value === null || value === undefined) return 'Không có'
 
     switch (fieldName) {

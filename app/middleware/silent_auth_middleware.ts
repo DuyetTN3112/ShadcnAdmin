@@ -10,7 +10,7 @@ import env from '#start/env'
 export default class SilentAuthMiddleware {
   private isDevMode = env.get('NODE_ENV') === 'development'
 
-  private log(..._args: any[]) {
+  private log(..._args: unknown[]) {
     if (this.isDevMode) {
     }
   }

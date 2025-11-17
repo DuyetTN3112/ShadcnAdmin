@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/select'
 import { Task } from '../../../types'
 import { DatePicker } from '@/components/ui/date-picker'
-import { cn } from '@/lib/utils'
 import useTranslation from '@/hooks/use_translation'
 
 interface TaskDetailFieldsProps {

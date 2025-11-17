@@ -41,7 +41,7 @@ export const getUserOrganizationRole = (user: User): string => {
 /**
  * Kiểm tra người dùng hiện tại có phải là superadmin của tổ chức không
  */
-export const isSuperAdminInCurrentOrg = (authUser: any): boolean => {
+export const isSuperAdminInCurrentOrg = (authUser: unknown): boolean => {
   const user = authUser
   const currentOrgId = user.current_organization_id
 

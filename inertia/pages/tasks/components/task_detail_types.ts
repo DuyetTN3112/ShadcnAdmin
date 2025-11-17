@@ -27,6 +27,6 @@ export interface AuditLog {
     username: string
   }
   action: string
-  changes?: any
+  changes?: unknown
   created_at: string
 }
