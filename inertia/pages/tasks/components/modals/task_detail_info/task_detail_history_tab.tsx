@@ -1,6 +1,6 @@
-import React from 'react'
+
 import { formatDate } from '../../../utils/task_formatter'
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 
 interface TaskDetailHistoryTabProps {
   auditLogs: Array<{

@@ -1,9 +1,9 @@
-import React from 'react'
+
 import { format, parseISO } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import { Card, CardContent } from '@/components/ui/card'
 import { History } from 'lucide-react'
-import { Task } from '../../types'
+import type { Task } from '../../types'
 
 interface AuditLogEntry {
   id: number

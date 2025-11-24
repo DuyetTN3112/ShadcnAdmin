@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 import { Save, Trash2, CheckCircle, AlertCircle } from 'lucide-react'
 
 interface TaskDetailActionsProps {

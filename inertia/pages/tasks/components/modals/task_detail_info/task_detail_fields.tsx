@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 import { DatePicker } from '@/components/ui/date-picker'
 import useTranslation from '@/hooks/use_translation'
 

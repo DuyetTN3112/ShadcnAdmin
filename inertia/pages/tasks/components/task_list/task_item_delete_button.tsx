@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Trash2 } from 'lucide-react'
-import { Task } from '../../types'
+import type { Task } from '../../types'
 import { router } from '@inertiajs/react'
 import {
   AlertDialog,

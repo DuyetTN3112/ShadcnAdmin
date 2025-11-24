@@ -1,4 +1,3 @@
-import { LucideIcon } from 'lucide-react'
 import * as LucideIcons from 'lucide-react'
 
 interface BaseNavItem {

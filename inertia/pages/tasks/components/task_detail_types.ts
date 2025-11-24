@@ -1,4 +1,4 @@
-import { Task } from '../types'
+import type { Task } from '../types'
 
 export interface TaskDetailModalProps {
   open: boolean

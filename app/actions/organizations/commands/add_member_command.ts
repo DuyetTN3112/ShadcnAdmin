@@ -3,7 +3,7 @@ import db from '@adonisjs/lucid/services/db'
 import User from '#models/user'
 import AuditLog from '#models/audit_log'
 import type { AddMemberDTO } from '../dtos/add_member_dto.js'
-import CreateNotification from '#actions/common/create_notification'
+import type CreateNotification from '#actions/common/create_notification'
 
 /**
  * Command: Add Member to Organization

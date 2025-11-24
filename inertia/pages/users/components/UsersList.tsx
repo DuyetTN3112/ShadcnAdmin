@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Link } from '@inertiajs/react'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/table'
 import { Pagination } from '@/components/ui/pagination'
 import useTranslation from '@/hooks/use_translation'
-import { User, UsersProps } from '../types'
+import  type { User, UsersProps } from '../types'
 import { getUserDisplayName, getUserOrganizationRole } from '../utils/user_utils'
 
 type UsersListProps = {

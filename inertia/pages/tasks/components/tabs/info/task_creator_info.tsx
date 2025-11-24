@@ -1,7 +1,7 @@
 
 import { Label } from '@/components/ui/label'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 import { formatDate } from '../../task_detail_utils'
 
 interface TaskCreatorInfoProps {

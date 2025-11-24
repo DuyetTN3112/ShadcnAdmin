@@ -1,6 +1,6 @@
 import { format } from 'date-fns'
 import { vi } from 'date-fns/locale'
-import { Task } from '../types'
+import type { Task } from '../types'
 
 /**
  * Tạo initials từ tên người dùng

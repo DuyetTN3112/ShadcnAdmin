@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Loader2, Phone, Video, MoreVertical, MoreHorizontal, Copy, Share, Trash } from 'lucide-react'
-import { Conversation, Message } from '../types'
+import type { Conversation, Message } from '../types'
 import { getAvatarInitials, formatMessageDate, groupMessagesByDate, getConversationInfo, calculateMessageSize } from '../utils/conversation_utils'
 import useTranslation from '@/hooks/use_translation'
 import {
@@ -214,7 +214,7 @@ export const ConversationDetail: React.FC<ConversationDetailProps> = ({
                                         </DropdownMenuItem>
                                       )}
                                       <DropdownMenuItem onClick={() => {
-                                        navigator.clipboard.writeText(message.message)
+                                        void navigator.clipboard.writeText(message.message)
                                       }}>
                                         <Copy className="mr-2 h-4 w-4" />
                                         {t('conversation.copy', {}, 'Sao chép')}

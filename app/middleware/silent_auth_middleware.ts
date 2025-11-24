@@ -20,8 +20,7 @@ export default class SilentAuthMiddleware {
     next: NextFn,
     options: { guards?: (keyof Authenticators)[] } = {}
   ) {
-    // @ts-expect-error TS6133
-    const startTime = this.isDevMode ? Date.now() : 0
+    // const startTime = this.isDevMode ? Date.now() : 0
     try {
       // Kiểm tra xác thực nhưng không bắt buộc
       for (let guard of options.guards || [ctx.auth.defaultGuard]) {

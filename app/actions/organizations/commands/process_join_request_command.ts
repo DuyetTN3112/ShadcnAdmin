@@ -2,7 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import db from '@adonisjs/lucid/services/db'
 import AuditLog from '#models/audit_log'
 import type { ProcessJoinRequestDTO } from '../dtos/process_join_request_dto.js'
-import CreateNotification from '#actions/common/create_notification'
+import type CreateNotification from '#actions/common/create_notification'
 
 /**
  * Command: Process Join Request (Approve or Reject)

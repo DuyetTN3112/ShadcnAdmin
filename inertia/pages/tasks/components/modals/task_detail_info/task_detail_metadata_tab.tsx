@@ -1,7 +1,7 @@
 
 import { formatDate } from '../../../utils/task_formatter'
 
-import { Task } from '../../../types'
+import type { Task } from '../../../types'
 import {
   Calendar,
   User,

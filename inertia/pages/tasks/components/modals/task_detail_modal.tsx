@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Task } from '../../types'
+import type { Task } from '../../types'
 import { TaskDetailInfoTab } from './task_detail_info/task_detail_info_tab'
 import { TaskDetailHistoryTab } from './task_detail_info/task_detail_history_tab'
 import { getPermissions } from '../task_detail_utils'

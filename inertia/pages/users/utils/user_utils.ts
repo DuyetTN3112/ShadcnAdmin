@@ -1,4 +1,4 @@
-import { User } from '../types'
+import type { User } from '../types'
 
 /**
  * Lấy tên hiển thị của người dùng

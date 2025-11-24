@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TaskItemProps } from '../../types'
+import type { TaskItemProps } from '../../types'
 import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { canDeleteTask } from '../../utils/task_permissions'
